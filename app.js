@@ -39,6 +39,17 @@ app.post('/products', (req, res) => {
   res.status(201).json(newProduct);
 });
 
+app.delete('/products/:id', (req, res) => {
+  const getProductId = req.params.id;
+  const index = products.findIndex(product => product.id === getProductId);
+  if (index !== -1) {
+    products.splice(index, 1);
+    res.status(204).json();
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+});
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
