@@ -33,6 +33,12 @@ app.get('/products/:id', (req, res) => {
   }
 });
 
+app.post('/products', (req, res) => {
+  const newProduct = req.body;
+  products.push(newProduct);
+  res.status(201).json(newProduct);
+});
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
