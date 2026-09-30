@@ -40,11 +40,22 @@ app.post('/products', (req, res) => {
 });
 
 app.delete('/products/:id', (req, res) => {
-  const getProductId = req.params.id;
-  const index = products.findIndex(product => product.id === getProductId);
+  const deleteProduct = req.params.id;
+  const index = products.findIndex(product => product.id === deleteProduct);
   if (index !== -1) {
     products.splice(index, 1);
     res.status(204).json();
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+});
+
+app.patch('/products/:id', (req, res) => {
+  const updateProduct = req.params.id;
+  const index = products.findIndex(product => product.id === updateProduct);
+  if (index !== -1) {
+    products[index] = { ...products[index], ...req.body };
+    res.json(products[index]);
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
