@@ -8,7 +8,6 @@ const secretKEY  = process.env.SECRET_KEY;
 
 app.use(express.json());
 
-
 const expiresIn = '1h';
 
 //Liste de user
@@ -28,13 +27,15 @@ const users = [
 //     }
 // };
 
-
 const requireAuth = (req,res,next) => {
-    const notSplittedToken = req.headers.authorization;
-    const splitted = notSplittedToken.split(' ');
-    const token = splitted[1];
-    console.log('Token : '+ token);
-
+  const notSplittedToken = req.headers.authorization;
+  if (!notSplittedToken) {
+    return res.status(403).json({ error: 'No token provided' });
+  }
+  const splitted = notSplittedToken.split(' ');
+  const token = splitted[1];
+  console.log('Token : ' + token);
+  
     if (token){
         jwt.verify(token, secretKEY , (err, decodedToken) => {
 
@@ -49,7 +50,6 @@ const requireAuth = (req,res,next) => {
         return res.status(401).json({ error: 'Unauthorized'});
 }};
 
-
 //Route de connexion
 app.post('/login', (req,res) => {
     const {username, password} = req.body;
@@ -62,13 +62,10 @@ app.post('/login', (req,res) => {
     }
 });
 
-
 //Get all users
 app.get("/users",requireAuth, (req,res)=>{
     res.json(users);
  });
-
-
 
 //Start the server
 app.listen(PORT, () => {
