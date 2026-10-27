@@ -1,0 +1,36 @@
+Contexte :
+
+HealthLab est une plateforme de gestion des examens biologiques pour les établissements de santé.
+
+- Les professionnels de santé transmettent les demandes d'analyses
+- Les équipes de laboratoire réalisent les analyses et transmettent les résultats.
+- Les patients disposent d'un portail pour consulter leurs données.
+- Chaque analyse est facturée au patient.
+
+Objectif : 
+
+- Isoler les différentes ressources.
+- Définir les rôles et leur hiérarchie.
+- Déterminer les droits d'accès aux ressource et aux actions.
+
+------------------------------------------------------------------
+
+Ressources : 
+    - Analyses
+    - Utilisateurs
+    - Factures
+    - Resultats
+
+Rôles : 
+    - Admin
+      - Biologiste
+      - Professionnels de santé
+        - Technicien
+           - Patients
+
+Droits d'accès :
+    - Admin : Accès complet
+    - Biologiste : Droits d'accès aux fichiers patients (analyses et résulatats)
+    - Professionnel de santé : Droits lecture / écriture aux fichiers patients
+    - Technicien : Consultation des fichiers patients
+    - Patient : Accès à ses propres données uniquement (en lecture seule)

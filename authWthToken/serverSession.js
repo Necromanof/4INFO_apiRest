@@ -1,3 +1,4 @@
+const { rateLimit } = require('express-rate-limit');
 const express = require("express");
 const session = require("express-session");
 require("dotenv").config();
@@ -5,7 +6,23 @@ require("dotenv").config();
 const app = express();
 const PORT = 3000;
 
+const rateLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false 
+});
+
+const limitPoint = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
 app.use(express.json());
+app.use(rateLimiter);
+
 
 app.use(session({
     secret : process.env.SECRET_KEY,
@@ -34,10 +51,12 @@ const users = [
 
 
 //Route de connexion
-app.post('/login', (req,res) => {
-    const {username, password} = req.body;
-    //Search if the user is on list
-    const user = users.find(u => u.username === username && u.password === password);
+app.post('/login', limitPoint, (req,res) => {
+  const {username, password} = req.body;
+  //Search if the user is on list
+  const user = users.find(u => u.username === username && u.password === password);
+
+  
     if(user){
         //Authen seccess, stock the user in the session
         req.session.user = user;

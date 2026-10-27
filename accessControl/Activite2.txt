@@ -1,0 +1,9 @@
+Activité - Validation des données
+
+Objectif : 
+Ajouter une validation des données reçues par l'API
+    - Déterminer les contraintes à appliquer
+    - Installer Joi
+    - Implémenter la validation des données
+    
+ 
